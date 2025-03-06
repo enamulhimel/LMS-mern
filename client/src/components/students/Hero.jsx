@@ -1,5 +1,6 @@
 import React from "react";
 import sketch from "../../assets/new/sktech.svg";
+import SearchBar from "./SearchBar";
 
 const Hero = () => {
   return (
@@ -9,7 +10,7 @@ const Hero = () => {
           Empower your future with the courses designed to
           <span className="text-blue-600"> fit your choice.</span>
         </h1>
-        <div className="flex justify-end">
+        <div className="flex justify-end ">
           <img src={sketch} alt="sketch" />
         </div>
       </div>
@@ -22,6 +23,9 @@ const Hero = () => {
         We bring together world-class instructors to help you achieve your
         professional goals
       </p>
+      <div className="pt-5">
+        <SearchBar />
+      </div>
     </div>
   );
 };
