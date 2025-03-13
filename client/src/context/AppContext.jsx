@@ -38,9 +38,9 @@ export const AppContextProvider = ({ children }) => {
   }
 
   //Function to calculate course duration time
-  const calculateCourseTime = (chapter) =>{
+  const calculateCourseTime = (course) =>{
     let time = 0 ;
-    course.chapterContent.map((chapter)=>chapter.chapterContent.map((lecture)=>{
+    course.courseContent.map((chapter)=>chapter.chapterContent.map((lecture)=>{
       time += lecture.lectureDuration
     }))
     return humanizeDuration(time *60*1000,{units:["h","m"]})
@@ -48,8 +48,9 @@ export const AppContextProvider = ({ children }) => {
 
   //Function to calculate no. of lechtures in the course
   const calculateNoOfLectures = (course)=>{
-    const totalLectures = 0;
-    course.courseContent.forEach(chapter=>{
+    let totalLectures = 0;
+    if (!course || !Array.isArray(course.courseContent)) return 0;
+    course.courseContent.forEach((chapter)=>{
       if(Array.isArray(chapter.chapterContent)){
         totalLectures += chapter.chapterContent.length;
       }
