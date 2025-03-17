@@ -78,6 +78,31 @@ const AddCourse = () => {
   setDiscount(0)
   };
 
+  const addLecture = () =>{
+    setChapters(
+      chapters.map((chapter)=>{
+        if(chapter.chapterId === currentChapterId){
+          const newLecture = {
+            ...lectureDetails,
+            lectureOrder: chapter.chapterContent.length > 0 ? chapter.chapterContent.slice(-1)[0].lectureOrder + 1 : 1,
+            lectureId: uniqid()
+          };
+          chapter.chapterContent.push(newLecture)
+        }
+        return chapter;
+      })
+    );
+    setShowPopup(false);
+    setLectureDetails({
+      lectureTitle:'',
+      lectureDuration:'',
+      lectureUrl:'',
+      isPreviewFree:false,
+    });
+  };
+
+  
+
   return (
     <div className="max-w-lg mx-auto mt-10 p-5 border rounded-lg shadow-lg">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -148,14 +173,16 @@ const AddCourse = () => {
             <div key={chapterIndex} className="bg-white border rounded-lg mb-4">
               <div className="flex justify-between items-center p-4 border-b">
                  <div className="flex items-center">
-                  <img src={assets.dropdown_icon} width={14} alt="" className={`mr-2 cursor-pointer transition-all ${chapter.collapsed && "-rotate-900"}`} />
+                  <img onClick={()=>handleChapter('toggle',chapter.chapterId)} src={assets.dropdown_icon} width={14} alt="" className={`mr-2 cursor-pointer transition-all ${chapter.collapsed && "-rotate-180"}`} />
                   <span className="font-semibold">{chapterIndex + 1} {chapter.chapterTitle}</span>
                  </div>
               </div>
+              <div className="flex items-center justify-between px-4 py-4">
               <span className="text-gray-500">{chapter.chapterContent.length} Lectures</span>
-              <img src={assets.cross_icon} alt="" className="cursor-pointer" />
+              <img onClick={()=>handleChapter('remove',chapter.chapterId)} src={assets.cross_icon} alt="" className="cursor-pointer" />
+              </div>
 
-              {!chapter?.collapsed && (
+              {!chapter.collapsed && (
               <div className="p-4">
                 {chapter.chapterContent.map((lecture, lectureIndex) => (
                   <div key={lectureIndex} className="flex justify-between items-center mb-2">
@@ -197,7 +224,7 @@ const AddCourse = () => {
                   <p>Is Preview Free?</p>
                   <input type="checkbox" className="mt-1 block w-full border rounded py-1 px-2" value={lectureDetails.isPreviewFree} onChange={(e)=>setLectureDetails({...lectureDetails,isPreviewFree: e.target.checked})}/>
                 </div>
-                <button type="button" className="w-full bg-blue-400 text-white px-4 py-2 rounded">Add</button>
+                <button onClick={addLecture} type="button" className="w-full bg-blue-400 text-white px-4 py-2 rounded">Add</button>
 
                 <img onClick={()=>setShowPopup(false)} src={assets.cross_icon} className="absolute top-4 right-4 w-4 cursor-pointer" alt="" />
               </div>
