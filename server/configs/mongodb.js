@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 // connect to the mongoDb database
 
-const connectDb = async()=>{
+const connectDB = async()=>{
     mongoose.connection.on ('connected',()=>console.log('database connected'))
-    await mongoose.connect(`${process.env.URL}/lms`)
+    await mongoose.connect(`${process.env.MONGODB_URL}/lms-mern`)
 
 }
-export default connectDb
+export default connectDB
